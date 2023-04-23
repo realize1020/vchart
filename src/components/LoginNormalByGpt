@@ -1,0 +1,26 @@
+<template>
+    <div class="login-page">
+        <h1>Login Here</h1>
+        <input type="text" placeholder="Enter Your Username or Email Address" v-model="username"/>
+        <br />
+        <input type="password" placeholder="Enter Your Password" v-model="password"/>
+        <br />
+        <button @click="login()">Login</button>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            username: '',
+            password: ''
+        }
+    },
+    methods: {
+        login() {  
+            // Logic to perform login goes here...
+        }
+    }
+}
+</script>

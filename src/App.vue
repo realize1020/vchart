@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <simple-line />
+    <simple-map/> -->
+    <!-- <login-component/> -->
+    <router-view />
+    <!-- <map/> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+// import SimpleLine from './components/SimpleLine.vue'
+// import SimpleMap from './components/SimpleMap.vue'
+import LoginComponent from './components/LoginComponent.vue'
+import Main from './views/Main.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // SimpleLine,
+    // SimpleMap,
+    // LoginComponent,
+    // Main
   }
 }
 </script>
