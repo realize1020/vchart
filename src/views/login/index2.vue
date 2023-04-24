@@ -2,64 +2,30 @@
   <div>
     <!--flex弹性盒子模型，justify-content：主抽 -->
     <div style="display: flex;justify-content: center;margin-top: 150px">
-      <el-card style="width: 400px display: flex;justify-content: center">
-        <div slot="header" class="clearfix">
-          <span>登录</span>
-        </div>
-        <el-form ref="loginForm" :model="user" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" label-width="100px">
-            <el-form-item prop="username" label="用户名：">
-              <el-input
-                ref="username"
-                v-model="user.username"
-                placeholder="请输入用户名"
-                name="username"
-                type="text"
-                auto-complete="off"
-              /> 
+      <!-- <el-card style="width: 400px display: flex;justify-content: center">
+        <el-form :model="user" status-icon :rules="loginRules" ref="loginForm" label-width="100px" class="login-form">
+            <el-form-item label="用户名" prop="username">
+                <el-input type="text" v-model="user.username" autocomplete="off"></el-input>
             </el-form-item>
-
-            <el-form-item prop="password" label="密码：">
-              <el-input
-                ref="password"
-                v-model="user.password"
-                type="password"
-                placeholder="请输入密码"
-                name="password"
-                auto-complete="off"
-                @keyup.enter.native="doLogin"
-              />
+            <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
             </el-form-item>
-
-            <el-button :loading="loading"  style="width: 300px;display:flex;justify-content: center;" type="primary" @click="doLogin">登录</el-button>
-          </el-form>
-
-        <!-- <table>
-          <tr id="userNametd">
-            <td>用户名</td>
-            <td>
-              <!-- <el-input v-model="user.username" placeholder="请输入用户名" v-on:change="handleChangeUserName" ></el-input> -->
-              <!-- <el-input id="el-input" v-model="user.username" placeholder="请输入用户名" v-on:change="handleChangeUserName" ></el-input> -->
-              <!-- <p class="hidden"><p/> -->
-            <!-- </td> -->
-         <!--  </tr>
-          <tr id="passWordtd"> 
-            <td>密码</td>
-            <td>
-              <!-- <el-input type="password" v-model="user.password" placeholder="请输入密码" v-on:change="handleChangePassword" @keydown.enter.native="doLogin"></el-input> -->
-              <!-- <el-input type="password" v-model="user.password" placeholder="请输入密码" v-on:change="handleChangePassword" @keydown.enter.native="doLogin"></el-input> -->
-              <!-- @keydown.enter.native="doLogin"当按下enter键的时候也会执行doLogin方法-->
-            <!-- </td>
-          </tr>
-          <tr>
-            <!-- 占两行-->
-            <!-- <td colspan="2">
-              <!-- 点击事件的两种不同的写法v-on:click和 @click-->
-              <!--<el-button style="width: 300px" type="primary" v-on:click="doLogin">登录</el-button>-->
-           <!--    <el-button :loading="loading"  style="width: 300px;display:flex;justify-content: center;" type="primary" @click="doLogin">登录</el-button>
-            </td>
-          </tr>
-        </table> -->
-      </el-card>
+            <el-form-item>
+                <el-button type="primary" @click="doLogin">登录</el-button>
+            </el-form-item>
+        </el-form>
+      </el-card> -->
+      <el-form :model="user" status-icon :rules="loginRules" ref="loginForm" label-width="100px" class="login-form">
+            <el-form-item label="用户名" prop="username">
+                <el-input type="text" v-model="user.username" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="user.password" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="doLogin">登录</el-button>
+            </el-form-item>
+        </el-form>
     </div>
   </div>
 </template>
