@@ -6,9 +6,12 @@ import config from './config'
 
 // 创建axios实例对象
 const service = axios.create({
-    timeout: 8000,
+    timeout: 180000,
 })
-
+service.defaults.withCredentials = true
+//axios.defaults.baseURL = 'http://localhost:8080/'
+axios.defaults.baseURL = '/'
+axios.defaults.headers["Access-Control-Allow-Origin"]="http://localhost:8080/"
 // 请求拦截
 service.interceptors.request.use(function (config) {
     return config

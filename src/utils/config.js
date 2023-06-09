@@ -4,7 +4,8 @@
 const env = 'development' // 项目运行环境
 const EnvConfig = {
     development: { // 开发环境
-        baseApi: 'http://localhost:8080',
+        //baseApi: 'http://localhost:8080',
+        baseApi: '/',
         mockApi: ''
     },
     test: { // 测试环境
