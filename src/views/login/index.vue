@@ -141,8 +141,18 @@ import { isvalidUsername } from "@/utils/validate.js"
               //alert("登陆失败！");//todo 能不能把后端的详细信息输出在跳转的页面上，也就是两个页面之间的数据传递。
               MessageBox.alert("登录失败")
             }else{
+              //登录成功
               this.loading = false
-              this.$router.push({path: '/Main'})
+              //登录成功的提示,抽取成下面方法代替
+              // this.$message({
+              //   message: '登录成功！',
+              //   center: true
+              // });
+              this.loginSuccessMessageAndopenCenter()
+              //储存token和用户信息
+              localStorage.setItem("token",res.data.data.token)
+              //this.$router.push({path: this.redirect || '/'})
+              this.$router.push({path: '/'})
               //that.$router.push({name:'Main'});
             }
            
@@ -150,6 +160,14 @@ import { isvalidUsername } from "@/utils/validate.js"
         // .catch(() =>{
         //   alert("登陆错误！");
         // })
+      },
+      //登录成功的提示
+      loginSuccessMessageAndopenCenter() {
+        this.$message({
+          message: '登录成功！',
+          center: true,
+          type: 'success'
+        });
       },
       async handleChangeUserName(){
         // if(this.user.username.length<=0){
