@@ -15,3 +15,11 @@ export function login(data){
         data
     })
 }
+export function ValidateCode(date) {
+    return request({
+        url: '/api/code/verifyCode?'+date,
+        method: 'get',
+        responseType: 'blob'
+    })
+    
+}

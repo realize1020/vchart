@@ -9,6 +9,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(VCharts)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+import axios from 'axios'
+axios.defaults.withCredentials = true  //携带cookies  不设置 默认为不携带 就不储存cookies了
 
 //路由守卫，如果没有登录，不能直接上来就访问首页
 router.beforeEach((to,from,next)=>{

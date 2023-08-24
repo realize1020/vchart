@@ -29,6 +29,27 @@
                 @keyup.enter.native="doLogin"
               />
             </el-form-item>
+            <el-form-item>
+              <div class="password clearfix">
+                <!-- <el-image class="codeImg" :src="imgUrl" @click="resetImg"></el-image> -->
+                <!-- <el-image class="codeImg" src="http://localhost:9091/api/code/verifyCode" @click="this.src='http://localhost:9091/api/code/verifyCode?d='+new Date()*1"></el-image> -->
+                
+                <el-image class="codeImg" :src="imgUrl" @click="resetImg"></el-image>
+              </div>
+            </el-form-item>
+            
+            <el-form-item prop="check" label="验证码：">
+                <!-- <input type="text" id="verifyCode" placeholder="请输入验证码" maxlength="6"> -->
+              <el-input 
+                ref="verifyCode"  
+                type="text" 
+                name="verifyCode" 
+                placeholder="请输入验证码" 
+                auto-complete="off"  
+                maxlength="6"
+                />
+            </el-form-item>
+           
 
             <el-button :loading="loading"  style="width: 300px;display:flex;justify-content: center;" type="primary" @click="doLogin">登录</el-button>
           </el-form>
@@ -66,9 +87,12 @@
 <script>
 import { MessageBox } from 'element-ui'
 //import { login } from "../api/login.js"
-import { login } from "@/api/login.js"
+import { login,ValidateCode } from "@/api/login.js"
+// import {ValidateCode} from "@/api/login.js"
+import axios from 'axios'
 //import { isvalidUsername } from "../utils/validate.js"
 import { isvalidUsername } from "@/utils/validate.js"
+//import request from '../utils/request.js'
 //import {request} from '../utils/request'
 //import {Alert} from 'element-ui'
   export default {
@@ -91,6 +115,7 @@ import { isvalidUsername } from "@/utils/validate.js"
           }
         };
 
+
       return{
         //之前是在里面直接写username，password等等，但是这里要写return
         //因为一个组件不管要不要被其他组件用，只要这样定义了，它就会认为可能这个组件会在其他的组件中使用
@@ -108,30 +133,19 @@ import { isvalidUsername } from "@/utils/validate.js"
           password: [{required: true, trigger: 'blur', validator: validatePass}]
         },
         loading: false,
+        //imgUrl:'http://localhost:8181/root/code?time='+new Date(),
+        //imgUrl:this.resetImg(),
+        //imgUrl:'http://localhost:9091/api/code/verifyCode?time='+new Date(),
+        //写成接口形式，不直接把请求地址写在这
+        imgUrl:"",
       }
     },
-    //  watch: {
-    //   $route: {
-    //     handler: function(route) {
-    //       this.redirect = route.query && route.query.redirect
-    //     },
-    //     immediate: true
-    //   },
-    //   // radio: function () {
-    //   //   if (this.radio === '1') {
-    //   //     this.holder = '用户名为空！'
-    //   //   } else {
-    //   //     this.holder = '请输入用户名'
-    //   //   }
-    //   // }
-    // },
+    created () {
+      //this.getCaptcha()
+      this.resetImg()
+    },
     methods:{
       async doLogin(){//一点击登录按钮，这个方法就会执行
-        //alert(JSON.stringify(this.user))//可以直接把this.user对象传给后端进行校验用户名和密码
-        // let params = {
-        //     username : this.user.username,
-        //     password : this.user.password,
-        // };
         this.loading = true
         await login(this.user).then(res =>{
             //alert(res.data);
@@ -143,11 +157,6 @@ import { isvalidUsername } from "@/utils/validate.js"
             }else{
               //登录成功
               this.loading = false
-              //登录成功的提示,抽取成下面方法代替
-              // this.$message({
-              //   message: '登录成功！',
-              //   center: true
-              // });
               this.loginSuccessMessageAndopenCenter()
               //储存token和用户信息
               localStorage.setItem("token",res.data.data.token)
@@ -157,9 +166,6 @@ import { isvalidUsername } from "@/utils/validate.js"
             }
            
         })
-        // .catch(() =>{
-        //   alert("登陆错误！");
-        // })
       },
       //登录成功的提示
       loginSuccessMessageAndopenCenter() {
@@ -170,18 +176,11 @@ import { isvalidUsername } from "@/utils/validate.js"
         });
       },
       async handleChangeUserName(){
-        // if(this.user.username.length<=0){
-        //   MessageBox.alert("用户名为空！")
-        // }
         const para = document.createElement("p");
         para.style.color = 'tomato'
         const node = document.createTextNode("用户名为空！");
         var userNametd = document.getElementById("userNametd");
         if(this.user.username.length<=0){
-            //MessageBox.alert("用户名为空！")
-            //this.$refs.username.focus()
-            // console.log(document.getElementById("el-input").getAttribute("placeholder"));//.style.color = "#f00";
-            // document.getElementById("el-input").setAttribute("placeholder","用户名为空！");
             console.log(para.childNodes)
             if(para.childNodes.length==0){
               para.appendChild(node);
@@ -192,29 +191,14 @@ import { isvalidUsername } from "@/utils/validate.js"
           if(userNametd.childElementCount == 3){
             userNametd.removeChild(userNametd.lastChild);
           }
-           
-           //userNametd.removeChild(para);
-          //  userNametd.childNodes.forEach(child => {
-          //     console.log(child)
-          //     if(child.lastChild){
-          //       userNametd.removeChild(child.child.lastChild)
-          //     }
-          //   });
         }
       },
       async handleChangePassword(){
-        // if(this.user.password.length<=0){
-        //   MessageBox.alert("密码为空！")
-        // }
         const para = document.createElement("p");
         para.style.color = 'tomato'
         const node = document.createTextNode("密码为空！");
         var passWordtd = document.getElementById("passWordtd");
         if(this.user.password.length<=0){
-            //MessageBox.alert("用户名为空！")
-            //this.$refs.username.focus()
-            // console.log(document.getElementById("el-input").getAttribute("placeholder"));//.style.color = "#f00";
-            // document.getElementById("el-input").setAttribute("placeholder","用户名为空！");
             console.log(para.childNodes)
             if(para.childNodes.length==0){
               para.appendChild(node);
@@ -226,16 +210,27 @@ import { isvalidUsername } from "@/utils/validate.js"
           if(passWordtd.childElementCount == 3){
             passWordtd.removeChild(passWordtd.lastChild);
           }
-           
-           //userNametd.removeChild(para);
-          //  userNametd.childNodes.forEach(child => {
-          //     console.log(child)
-          //     if(child.lastChild){
-          //       userNametd.removeChild(child.child.lastChild)
-          //     }
-          //   });
         }
-      }
+      },
+
+
+      // 获取验证码,直接写死请求地址不太好
+      // resetImg(){
+      //   this.imgUrl = 'http://localhost:9091/api/code/verifyCode?time='+new Date();
+      // }
+      resetImg(){
+        var date = new Date();
+        ValidateCode(date).then(res =>{
+          console.debug("ValidateCode",res);
+           let url = window.URL.createObjectURL(res.data);
+           this.imgUrl = url;
+          //this.imgUrl=res.data;
+        })
+        
+      },
+      
+      
+
       // login(){
 
       //   const url = 'http://localhost:9091/login'
@@ -253,9 +248,14 @@ import { isvalidUsername } from "@/utils/validate.js"
       //     }
       //   )
       // }
+
     }
   }
 </script>
 <style scoped>
+.codeImg {
+        margin-top: 5px;
+        float: right;
+    }
 </style>
 
