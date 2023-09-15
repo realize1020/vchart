@@ -38,15 +38,16 @@
               </div>
             </el-form-item>
             
-            <el-form-item prop="check" label="验证码：">
+            <el-form-item prop="verifyCode" label="验证码：">
                 <!-- <input type="text" id="verifyCode" placeholder="请输入验证码" maxlength="6"> -->
               <el-input 
-                ref="verifyCode"  
+                ref="verifyCode"
+                v-model="user.verifyCode"  
                 type="text" 
                 name="verifyCode" 
                 placeholder="请输入验证码" 
                 auto-complete="off"  
-                maxlength="6"
+                @keyup.enter.native="doLogin"
                 />
             </el-form-item>
            
@@ -114,8 +115,13 @@ import { isvalidUsername } from "@/utils/validate.js"
             callback()
           }
         };
-
-
+      const validateVerifyCode = (rule , value , callback) => {
+          if(value.length < 1){
+            callback(new Error('验证码不能为空'))
+          }else{
+            callback()
+          }
+      };
       return{
         //之前是在里面直接写username，password等等，但是这里要写return
         //因为一个组件不管要不要被其他组件用，只要这样定义了，它就会认为可能这个组件会在其他的组件中使用
@@ -126,11 +132,13 @@ import { isvalidUsername } from "@/utils/validate.js"
         user:{
           username:'zhangsan',
           password:'123',
+          verifyCode:''
           //为了登录方便，可以直接在这里写好用户名和密码的值
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', validator: validateUsername}],
-          password: [{required: true, trigger: 'blur', validator: validatePass}]
+          password: [{required: true, trigger: 'blur', validator: validatePass}],
+          verifyCode:[{required: true, trigger: 'blur',validator: validateVerifyCode}]
         },
         loading: false,
         //imgUrl:'http://localhost:8181/root/code?time='+new Date(),
@@ -222,9 +230,10 @@ import { isvalidUsername } from "@/utils/validate.js"
         var date = new Date();
         ValidateCode(date).then(res =>{
           console.debug("ValidateCode",res);
-           let url = window.URL.createObjectURL(res.data);
-           this.imgUrl = url;
-          //this.imgUrl=res.data;
+            let url = window.URL.createObjectURL(res.data);
+            this.imgUrl = url;
+          // this.imgUrl=res.data.data.verifyImage;
+          // console.debug("uuid",res.data.data.uuid);
         })
         
       },
