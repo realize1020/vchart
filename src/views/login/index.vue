@@ -132,7 +132,8 @@ import { isvalidUsername } from "@/utils/validate.js"
         user:{
           username:'zhangsan',
           password:'123',
-          verifyCode:''
+          verifyCode:'',
+          uuid:''
           //为了登录方便，可以直接在这里写好用户名和密码的值
         },
         loginRules: {
@@ -232,6 +233,8 @@ import { isvalidUsername } from "@/utils/validate.js"
           console.debug("ValidateCode",res);
             let url = window.URL.createObjectURL(res.data);
             this.imgUrl = url;
+            this.user.uuid = res.headers.uuid
+            console.debug("uuid",res.headers.uuid);
           // this.imgUrl=res.data.data.verifyImage;
           // console.debug("uuid",res.data.data.uuid);
         })

@@ -72,6 +72,7 @@ import { isvalidUsername } from "../utils/validate.js"
         user:{
           username:'zhangsan',
           password:'123',
+          
           //为了登录方便，可以直接在这里写好用户名和密码的值
         },
         loginRules: {
