@@ -4,10 +4,14 @@ import App from './App.vue'
 import Login from './components/LoginComponent.vue'
 import router from './router'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
+// import uploader from 'vue-simple-uploader';
+const uploader = require('vue-simple-uploader')
+
 
 Vue.use(VCharts)
 Vue.use(ElementUI)
+Vue.use(uploader)
 Vue.config.productionTip = false
 import axios from 'axios'
 axios.defaults.withCredentials = true  //携带cookies  不设置 默认为不携带 就不储存cookies了

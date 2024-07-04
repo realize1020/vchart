@@ -6,6 +6,7 @@ module.exports = defineConfig({
 
 
   devServer: {
+    host: '0.0.0.0',
     port: 9091,//它是用来修改你打开后的端口号的
     open: false,//值为 true的话，项目启动时自动打开到浏览器里边， false不会打开
     proxy:{
@@ -15,7 +16,16 @@ module.exports = defineConfig({
             pathRewrite:{
                 '^/api':'http://localhost:8080/'//注册全局路径， 但是在你请求的时候前面需要加上 /api  
             }
-        }
+        },
+        // [process.env.VUE_APP_BASE_API]:{
+        //     //后端服务地址和端口
+        //     target: 'http://localhost:8080',
+        //     //是否跨域
+        //     changeOrigin: true,
+        //     pathRewrite: {
+        //       ['^' + process.env.VUE_APP_BASE_API]: ''
+        //     }
+        // }
     }
   },
 })
