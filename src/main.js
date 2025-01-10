@@ -5,6 +5,8 @@ import Login from './components/LoginComponent.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import store from './store'
+import Cookie from 'js-cookie'
 
 Vue.use(VCharts)
 Vue.use(ElementUI)
@@ -52,5 +54,6 @@ router.beforeEach((to,from,next)=>{
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App),
 })
